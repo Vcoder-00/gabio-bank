@@ -1,0 +1,29 @@
+{
+  "name": "sockets-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vcoder-00/gabio-bank.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Vcoder-00/gabio-bank/issues"
+  },
+  "homepage": "https://github.com/Vcoder-00/gabio-bank#readme",
+  "dependencies": {
+    "typescript": "^6.0.3",
+    "ws": "^8.20.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.0",
+    "@types/ws": "^8.18.1"
+  }
+}
