@@ -65,7 +65,7 @@ export class AppWebSocketServer {
       ws.send(
         ResponseSerializer.serialize({
           STATUS: "ERROR",
-          MESSAGE: "Mensagem inválida",
+          MESSAGE: "Mensagem inválida (servidor não conseguiu processar a mensagem recebida)",
         }),
       );
     }
