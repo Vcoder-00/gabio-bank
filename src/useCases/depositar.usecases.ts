@@ -1,11 +1,11 @@
-import { FakeBankDatabase } from "../Infra-fake/bd-fake";
+import { bd_Contas } from "../infra/bd-fake";
 import { Response } from "../Comunicacao/types";
 
 export class DepositarUseCase {
-  constructor(private readonly bankDatabase: FakeBankDatabase) {}
+  constructor(private readonly bankDatabase: bd_Contas) {}
 
   public async execute(accountId: string, value: number): Promise<Response> {
-    const account = this.bankDatabase.findById(accountId);
+    const account = this.bankDatabase.buscar(accountId);
 
     if (!account) {
       return {
@@ -15,6 +15,8 @@ export class DepositarUseCase {
     }
 
     account.saldo += value;
+
+    this.bankDatabase.updateBalance(accountId, account.saldo);
 
     return {
       STATUS: "OK",
