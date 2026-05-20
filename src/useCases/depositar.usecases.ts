@@ -16,6 +16,8 @@ export class DepositarUseCase {
 
     account.saldo += value;
 
+    this.bankDatabase.updateBalance(accountId, account.saldo);
+
     return {
       STATUS: "OK",
       MESSAGE: "Depósito realizado com sucesso",
