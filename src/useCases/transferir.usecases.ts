@@ -36,6 +36,9 @@ export class TransferirUseCase {
     fromAccount.saldo -= value;
     toAccount.saldo += value;
 
+    this.bankDatabase.updateBalance(fromAccountId, fromAccount.saldo);
+    this.bankDatabase.updateBalance(toAccountId, toAccount.saldo);
+
     return {
       STATUS: "OK",
       MESSAGE: "Transferência realizada com sucesso",
