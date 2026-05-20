@@ -1,7 +1,7 @@
-import { FakeBankDatabase } from "../Infra/bd-fake";
-import { Response } from "../protocolo";
+import { FakeBankDatabase } from "../Infra-fake/bd-fake";
+import { Response } from "../Comunicacao/types";
 
-class ConsultaSaldoUseCase {
+export class ConsultaSaldoUseCase {
   constructor(private readonly bankDatabase: FakeBankDatabase) {}
 
   public async execute(accountId: string): Promise<Response> {

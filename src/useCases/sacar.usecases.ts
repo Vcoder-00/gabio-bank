@@ -1,5 +1,5 @@
-import { FakeBankDatabase } from "../Infra/bd-fake";
-import { Response } from "../protocolo";
+import { FakeBankDatabase } from "../Infra-fake/bd-fake";
+import { Response } from "../Comunicacao/types";
 
 export class SacarUseCase {
   constructor(private readonly bankDatabase: FakeBankDatabase) {}
@@ -24,7 +24,7 @@ export class SacarUseCase {
     account.saldo -= value;
 
     this.bankDatabase.updateBalance(accountId, account.saldo);
-    
+
     return {
       STATUS: "OK",
       MESSAGE: "Saque realizado com sucesso",

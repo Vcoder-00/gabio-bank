@@ -1,5 +1,5 @@
-import { FakeBankDatabase } from "../Infra/bd-fake";
-import { Response } from "../protocolo";
+import { FakeBankDatabase } from "../Infra-fake/bd-fake";
+import { Response } from "../Comunicacao/types";
 
 export class DepositarUseCase {
   constructor(private readonly bankDatabase: FakeBankDatabase) {}
