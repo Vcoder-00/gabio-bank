@@ -62,10 +62,17 @@ export class AppWebSocketServer {
 
       ws.send(ResponseSerializer.serialize(response));
     } catch (error) {
+      console.error("Erro ao processar mensagem:", error);
+
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Mensagem inválida (servidor não conseguiu processar a mensagem recebida)";
+
       ws.send(
         ResponseSerializer.serialize({
           STATUS: "ERROR",
-          MESSAGE: "Mensagem inválida (servidor não conseguiu processar a mensagem recebida)",
+          MESSAGE: errorMessage,
         }),
       );
     }
