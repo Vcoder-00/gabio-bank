@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Vcoder-00/gabio-bank#readme",
   "dependencies": {
+    "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
     "ws": "^8.20.1"
   },
