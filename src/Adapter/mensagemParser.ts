@@ -44,7 +44,7 @@ export function parseMessage(mensagemBruta: string): Operation {
   if (data.VALUE) {
     parsedValue = Number(data.VALUE);
     // isNaN protege contra strings como "abc", e <= 0 evita depósitos negativos
-    if (isNaN(parsedValue) || parsedValue <= 0) {
+    if (isNaN(parsedValue)) {
       throw new Error(
         "VALUE deve ser um número numérico válido e maior que zero",
       );
