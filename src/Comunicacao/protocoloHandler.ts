@@ -1,26 +1,31 @@
-import type { Operation, Response } from '../protocolo';
-import { Protocolo } from '../protocolo';
+import type { Operation, Response } from "./types";
+import { ConsultaSaldoUseCase } from "../useCases/consultarSaldo.usecases";
+import { SacarUseCase } from "../useCases/sacar.usecases";
+import { DepositarUseCase } from "../useCases/depositar.usecases";
+import { TransferirUseCase } from "../useCases/transferir.usecases";
+import { parseMessage } from "../Adapter/mensagemParser";
 
-export class ProtocolHandler implements Protocolo {
-  constructor(private ConsultaSaldoUseCase: ConsultaSaldoUseCase,
+export class ProtocolHandler {
+  constructor(
+    private ConsultaSaldoUseCase: ConsultaSaldoUseCase,
     private SacarUseCase: SacarUseCase,
     private DepositarUseCase: DepositarUseCase,
-    private TransferirUseCase: TransferirUseCase
+    private TransferirUseCase: TransferirUseCase,
   ) {}
 
   public async handle(msg: Operation): Promise<Response> {
     switch (msg.OPERATION) {
       case "BALANCE":
-        return this.ConsultaSaldoUseCase.execute(msg);
+        return this.consultarSaldo(msg);
 
       case "WITHDRAW":
-        return this.SacarUseCase.execute(msg);
+        return this.sacar(msg);
 
       case "DEPOSIT":
-        return this.DepositarUseCase.execute(msg);
+        return this.depositar(msg);
 
       case "TRANSFER":
-        return this.TransferirUseCase.execute(msg);
+        return this.transferir(msg);
 
       default:
         return {
@@ -29,8 +34,7 @@ export class ProtocolHandler implements Protocolo {
         };
     }
   }
-
-  private async consultaSaldo(msg: Operation): Promise<Response> {
+  private async consultarSaldo(msg: Operation): Promise<Response> {
     return this.ConsultaSaldoUseCase.execute(msg.ACCOUNT_ID);
   }
 
@@ -45,7 +49,7 @@ export class ProtocolHandler implements Protocolo {
   private async transferir(msg: Operation): Promise<Response> {
     return this.TransferirUseCase.execute(
       msg.ACCOUNT_ID,
-      msg.TO_COUNT_ID!,
+      msg.TO_ACCOUNT_ID!,
       msg.VALUE!,
     );
   }

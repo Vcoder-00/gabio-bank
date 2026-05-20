@@ -1,8 +1,9 @@
 import http from "http";
-import { WebSocketServer, WebSocket } from "ws";
-
+import { WebSocketServer, WebSocket, RawData } from "ws";
+import { parseMessage } from "../Adapter/mensagemParser";
+import { ResponseSerializer } from "../Adapter/ResponseSerializer";
 import { ProtocolHandler } from "./protocoloHandler";
-import { Operation, Response } from "../protocolo";
+import { Operation, Response } from "./types";
 
 export class AppWebSocketServer {
   private readonly httpServer: http.Server;
@@ -12,9 +13,7 @@ export class AppWebSocketServer {
     private readonly protocolHandler: ProtocolHandler,
     private readonly port: number = 7001,
   ) {
-    this.httpServer = http.createServer(
-      this.handleHttpRequest,
-    );
+    this.httpServer = http.createServer(this.handleHttpRequest);
 
     this.wss = new WebSocketServer({
       server: this.httpServer,
@@ -25,9 +24,7 @@ export class AppWebSocketServer {
     this.configureWebSocket();
 
     this.httpServer.listen(this.port, () => {
-      console.log(
-        `Servidor WebSocket rodando na porta ${this.port}`,
-      );
+      console.log(`Servidor WebSocket rodando na porta ${this.port}`);
     });
   }
 
@@ -43,40 +40,30 @@ export class AppWebSocketServer {
   }
 
   private configureWebSocket(): void {
-    this.wss.on(
-      "connection",
-      (ws: WebSocket) => {
-        console.log("Cliente conectado");
+    this.wss.on("connection", (ws: WebSocket) => {
+      console.log("Cliente conectado");
 
-        ws.on("message", async (data) => {
-          await this.handleMessage(ws, data);
-        });
+      ws.on("message", async (data) => {
+        await this.handleMessage(ws, data);
+      });
 
-        ws.on("close", () => {
-          console.log("Cliente desconectado");
-        });
-      },
-    );
+      ws.on("close", () => {
+        console.log("Cliente desconectado");
+      });
+    });
   }
 
-  private async handleMessage(
-    ws: WebSocket,
-    data: Buffer,
-  ): Promise<void> {
+  private async handleMessage(ws: WebSocket, data: RawData): Promise<void> {
     try {
-        // Formatação da mensagem recebida para o formato esperado (Operation)
-      const message: Operation =
-        JSON.parse(data.toString());
+      // Formatação da mensagem recebida para o formato esperado (Operation)
+      const message: Operation = parseMessage(data.toString());
 
-      const response =
-        await this.protocolHandler.handle(
-          message,
-        );
+      const response: Response = await this.protocolHandler.handle(message);
 
-      ws.send(JSON.stringify(response));
+      ws.send(ResponseSerializer.serialize(response));
     } catch (error) {
       ws.send(
-        JSON.stringify({
+        ResponseSerializer.serialize({
           STATUS: "ERROR",
           MESSAGE: "Mensagem inválida",
         }),
