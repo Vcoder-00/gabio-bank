@@ -1,14 +1,14 @@
 import { AppWebSocketServer } from "./Comunicacao/server";
 import { ProtocolHandler } from "./Comunicacao/protocoloHandler";
-import { FakeBankDatabase } from "./Infra-fake/bd-fake";
 import { ConsultaSaldoUseCase } from "./useCases/consultarSaldo.usecases";
 import { SacarUseCase } from "./useCases/sacar.usecases";
 import { DepositarUseCase } from "./useCases/depositar.usecases";
 import { TransferirUseCase } from "./useCases/transferir.usecases";
+import { bd_Contas } from "./infra/bd-fake";
 
 async function bootstrap() {
   // 1. Instanciar infraestrutura (Banco de dados Fake)
-  const bankDatabase = new FakeBankDatabase();
+  const bankDatabase = new bd_Contas();
 
   // 2. Instanciar Casos de Uso (Negócio)
   const consultaSaldoUseCase = new ConsultaSaldoUseCase(bankDatabase);
