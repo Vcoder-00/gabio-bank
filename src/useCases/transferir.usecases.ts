@@ -12,6 +12,13 @@ export class TransferirUseCase {
     const fromAccount = this.bankDatabase.buscar(fromAccountId);
     const toAccount = this.bankDatabase.buscar(toAccountId);
 
+    if (fromAccountId === toAccountId) {
+      return {
+        STATUS: "ERROR",
+        MESSAGE: "Não é possível transferir para a mesma conta",
+      };
+    }
+
     if (!fromAccount || !toAccount) {
       return {
         STATUS: "ERROR",
