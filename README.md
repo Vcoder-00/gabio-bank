@@ -46,8 +46,7 @@ src
 │   ├── sacar.usecases.ts
 │   └── transferir.usecases.ts
 │
-├── main.ts
-└── protocolo.ts
+└── main.ts
 ```
 
 ---
