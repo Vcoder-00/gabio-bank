@@ -10,18 +10,18 @@ export class bd_Contas {
    * Dados mockados iniciais
    */
   private seed() {
-    this.contas.set("1", {
-      id: "1",
+    this.contas.set("1001", {
+      id: "1001",
       saldo: 1000,
     });
 
-    this.contas.set("2", {
-      id: "2",
+    this.contas.set("1002", {
+      id: "1002",
       saldo: 500,
     });
 
-    this.contas.set("3", {
-      id: "3",
+    this.contas.set("1003", {
+      id: "1003",
       saldo: 2500,
     });
   }
